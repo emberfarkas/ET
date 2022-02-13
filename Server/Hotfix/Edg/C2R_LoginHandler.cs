@@ -9,6 +9,16 @@ namespace ET
 	{
 		protected override async ETTask Run(Session session, C2R_Login request, R2C_Login response, Action reply)
 		{
+			var db = DBManagerComponent.Instance.GetZoneDB(session.DomainZone());
+			var col = await db.Query<AccountComponent>(account => account.Account == request.Account && account.Password == request.Password);
+			if (col.Count <= 0)
+			{
+				Log.Info("--------------------------------登录失败");
+				response.Error = ErrorCode.ERR_LoginFailed;
+				reply();
+				return;
+			}
+
 			// 随机分配一个Gate
 			StartSceneConfig config = RealmGateAddressHelper.GetGate(session.DomainZone());
 			Log.Debug($"gate address: {MongoHelper.ToJson(config)}");

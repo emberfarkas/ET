@@ -26,16 +26,16 @@
       <Link>Core\%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Compile>
 
-    <Compile Include="..\..\Unity\Codes\Model\Demo\Unit\UnitType.cs">
-      <Link>Demo\Unit\UnitType.cs</Link>
+    <Compile Include="..\..\Unity\Codes\Model\Edg\Unit\UnitType.cs">
+      <Link>Edg\Unit\UnitType.cs</Link>
     </Compile>
 
     <Compile Include="..\..\Unity\Codes\Model\Module\Recast\**\*.cs">
       <Link>Module\Recast\%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Compile>
 
-    <Compile Include="..\..\Unity\Codes\Model\Demo\SessionStreamDispatcherType.cs">
-      <Link>Demo\SessionStreamDispatcherType.cs</Link>
+    <Compile Include="..\..\Unity\Codes\Model\Edg\SessionStreamDispatcherType.cs">
+      <Link>Edg\SessionStreamDispatcherType.cs</Link>
     </Compile>
 
     <Compile Include="..\..\Unity\Assets\Mono\Core\**\*.cs">
@@ -43,13 +43,13 @@
     </Compile>
     
 
-    <Compile Include="..\..\Unity\Codes\Model\Demo\Move\MoveComponent.cs">
-      <Link>Demo\Move\MoveComponent.cs</Link>
+    <Compile Include="..\..\Unity\Codes\Model\Edg\Move\MoveComponent.cs">
+      <Link>Edg\Move\MoveComponent.cs</Link>
     </Compile>
     
 
-    <Compile Include="..\..\Unity\Codes\Model\Demo\TimerType.cs">
-      <Link>Demo\TimerType.cs</Link>
+    <Compile Include="..\..\Unity\Codes\Model\Edg\TimerType.cs">
+      <Link>Edg\TimerType.cs</Link>
     </Compile>
 
     <Compile Include="..\..\Unity\Codes\Model\Module\Config\**\*.cs">
