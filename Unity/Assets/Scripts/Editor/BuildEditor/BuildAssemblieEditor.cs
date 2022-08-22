@@ -13,16 +13,20 @@ namespace ET
     {
         private const string CodeDir = "Assets/Bundles/Code/";
 
-        public static void SetAutoBuildCode()
+        public static List<string> GetRelativeDirs(List<string> relativeDir)
         {
-            PlayerPrefs.SetInt("AutoBuild", 1);
-            ShowNotification("AutoBuildCode Enabled");
-        }
-        
-        public static void CancelAutoBuildCode()
-        {
-            PlayerPrefs.DeleteKey("AutoBuild");
-            ShowNotification("AutoBuildCode Disabled");
+            List<string> list = new List<string>();
+            
+            foreach (string re in relativeDir)
+            {
+                string rd = $"Assets/Scripts/Codes/{re}";
+                if (!Directory.Exists(rd))
+                {
+                    continue;
+                }
+                list.Add(rd);
+            }
+            return list;
         }
 
         public static void BuildCode(CodeOptimization codeOptimization, GlobalConfig globalConfig)
@@ -33,40 +37,43 @@ namespace ET
                 case CodeMode.Client:
                     codes = new List<string>()
                     {
-                        "../Codes/Generate/Client/",
-                        "../Codes/Model/Share/",
-                        "../Codes/Hotfix/Share/",
-                        "../Codes/Model/Client/",
-                        "../Codes/ModelView/Client/",
-                        "../Codes/Hotfix/Client/",
-                        "../Codes/HotfixView/Client/"
+                        "Model/Generate/Client",
+                        "Model/Share",
+                        "Hotfix/Share",
+                        "Model/Client",
+                        "ModelView/Client",
+                        "Hotfix/Client",
+                        "HotfixView/Client"
                     };
+                    codes = GetRelativeDirs(codes);
                     break;
                 case CodeMode.Server:
                     codes = new List<string>()
                     {
-                        "../Codes/Generate/Server/",
-                        "../Codes/Model/Share/",
-                        "../Codes/Hotfix/Share/",
-                        "../Codes/Model/Server/",
-                        "../Codes/Hotfix/Server/",
-                        "../Codes/Model/Client/",
-                        "../Codes/Hotfix/Client/",
+                        "Model/Generate/Server",
+                        "Model/Share",
+                        "Hotfix/Share",
+                        "Model/Server",
+                        "Hotfix/Server",
+                        "Model/Client",
+                        "Hotfix/Client",
                     };
+                    codes = GetRelativeDirs(codes);
                     break;
                 case CodeMode.ClientServer:
                     codes = new List<string>()
                     {
-                        "../Codes/Generate/Server/",
-                        "../Codes/Model/Share/",
-                        "../Codes/Hotfix/Share/",
-                        "../Codes/Model/Client/",
-                        "../Codes/ModelView/Client/",
-                        "../Codes/Hotfix/Client/",
-                        "../Codes/HotfixView/Client/",
-                        "../Codes/Model/Server/",
-                        "../Codes/Hotfix/Server/",
+                        "Model/Generate/Server",
+                        "Model/Share",
+                        "Hotfix/Share",
+                        "Model/Client",
+                        "ModelView/Client",
+                        "Hotfix/Client",
+                        "HotfixView/Client",
+                        "Model/Server",
+                        "Hotfix/Server",
                     };
+                    codes = GetRelativeDirs(codes);
                     break;
                 default:
                     throw new Exception("not found enum");
@@ -77,6 +84,9 @@ namespace ET
             AfterCompiling();
             
             AssetDatabase.Refresh();
+            
+            //反射获取当前Game视图，提示编译完成
+            ShowNotification("Build Code Success");
         }
         
         public static void BuildModel(CodeOptimization codeOptimization, GlobalConfig globalConfig)
@@ -88,36 +98,42 @@ namespace ET
                 case CodeMode.Client:
                     codes = new List<string>()
                     {
-                        "../Codes/Generate/Client/",
-                        "../Codes/Model/Share/",
-                        "../Codes/Model/Client/",
-                        "../Codes/ModelView/Client/",
+                        "Model/Generate/Client/",
+                        "Model/Share/",
+                        "Model/Client/",
+                        "ModelView/Client/",
                     };
+                    codes = GetRelativeDirs(codes);
                     break;
                 case CodeMode.Server:
                     codes = new List<string>()
                     {
-                        "../Codes/Generate/Server/",
-                        "../Codes/Model/Share/",
-                        "../Codes/Model/Server/",
-                        "../Codes/Model/Client/",
+                        "Model/Generate/Server/",
+                        "Model/Share/",
+                        "Model/Server/",
+                        "Model/Client/",
                     };
+                    codes = GetRelativeDirs(codes);
                     break;
                 case CodeMode.ClientServer:
                     codes = new List<string>()
                     {
-                        "../Codes/Model/Share/",
-                        "../Codes/Model/Client/",
-                        "../Codes/ModelView/Client/",
-                        "../Codes/Generate/Server/",
-                        "../Codes/Model/Server/",
+                        "Model/Share/",
+                        "Model/Client/",
+                        "ModelView/Client/",
+                        "Model/Generate/Server/",
+                        "Model/Server/",
                     };
+                    codes = GetRelativeDirs(codes);
                     break;
                 default:
                     throw new Exception("not found enum");
             }
             
             BuildAssemblieEditor.BuildMuteAssembly("Model", codes, Array.Empty<string>(), codeOptimization);
+            
+            //反射获取当前Game视图，提示编译完成
+            ShowNotification("Build Model Success");
         }
         
         
@@ -138,33 +154,39 @@ namespace ET
                 case CodeMode.Client:
                     codes = new List<string>()
                     {
-                        "../Codes/Hotfix/Share/",
-                        "../Codes/Hotfix/Client/",
-                        "../Codes/HotfixView/Client/"
+                        "Hotfix/Share/",
+                        "Hotfix/Client/",
+                        "HotfixView/Client/",
                     };
+                    codes = GetRelativeDirs(codes);
                     break;
                 case CodeMode.Server:
                     codes = new List<string>()
                     {
-                        "../Codes/Hotfix/Share/",
-                        "../Codes/Hotfix/Server/",
-                        "../Codes/Hotfix/Client/",
+                        "Hotfix/Share/",
+                        "Hotfix/Server/",
+                        "Hotfix/Client/",
                     };
+                    codes = GetRelativeDirs(codes);
                     break;
                 case CodeMode.ClientServer:
                     codes = new List<string>()
                     {
-                        "../Codes/Hotfix/Share/",
-                        "../Codes/Hotfix/Client/",
-                        "../Codes/HotfixView/Client/",
-                        "../Codes/Hotfix/Server/",
+                        "Hotfix/Share/",
+                        "Hotfix/Client/",
+                        "HotfixView/Client/",
+                        "Hotfix/Server/",
                     };
+                    codes = GetRelativeDirs(codes);
                     break;
                 default:
                     throw new Exception("not found enum");
             }
             
             BuildAssemblieEditor.BuildMuteAssembly(logicFile, codes, new[]{Path.Combine(Define.BuildOutputDir, "Model.dll")}, codeOptimization);
+            
+            //反射获取当前Game视图，提示编译完成
+            ShowNotification("Build Hotfix Success");
         }
 
         private static void BuildMuteAssembly(string assemblyName, List<string> CodeDirectorys, string[] additionalReferences, CodeOptimization codeOptimization)
@@ -247,18 +269,16 @@ namespace ET
                 Debug.LogErrorFormat("build fail：" + assemblyBuilder.assemblyPath);
                 return;
             }
+            
+            while (EditorApplication.isCompiling)
+            {
+                // 主线程sleep并不影响编译线程
+                Thread.Sleep(1);
+            }
         }
 
         private static void AfterCompiling()
         {
-            while (EditorApplication.isCompiling)
-            {
-                Debug.Log("Compiling wait1");
-                // 主线程sleep并不影响编译线程
-                Thread.Sleep(1000);
-                Debug.Log("Compiling wait2");
-            }
-            
             Debug.Log("Compiling finish");
 
             Directory.CreateDirectory(CodeDir);
@@ -276,8 +296,6 @@ namespace ET
             Debug.Log("set assetbundle success!");
             
             Debug.Log("build success!");
-            //反射获取当前Game视图，提示编译完成
-            ShowNotification("Build Code Success");
         }
 
         public static void ShowNotification(string tips)
