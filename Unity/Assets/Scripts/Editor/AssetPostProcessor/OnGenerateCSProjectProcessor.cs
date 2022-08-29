@@ -15,6 +15,7 @@ namespace ET
             {
                 return content;
             }
+
             if (path.EndsWith("Unity.Hotfix.csproj"))
             {
                 content =  content.Replace("<Compile Include=\"Assets\\Scripts\\Empty\\Hotfix\\Empty.cs\" />", string.Empty);
