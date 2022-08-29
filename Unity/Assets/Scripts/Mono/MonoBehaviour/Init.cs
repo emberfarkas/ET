@@ -25,18 +25,18 @@ namespace ET
 			SynchronizationContext.SetSynchronizationContext(ThreadSynchronizationContext.Instance);
 
 			// 命令行参数
-			Options options = null;
 			string[] args = "".Split(" ");
 			Parser.Default.ParseArguments<Options>(args)
 				.WithNotParsed(error => throw new Exception($"命令行格式错误! {error}"))
-				.WithParsed(o => { options = o; });
+				.WithParsed(Game.AddSingleton);
 			
-			Game.AddSingleton(options);
+			Game.AddSingleton<RandomGenerator>();
 			Game.AddSingleton<TimeInfo>();
 			Game.AddSingleton<Logger>().ILog = new UnityLogger();
 			Game.AddSingleton<ObjectPool>();
 			Game.AddSingleton<IdGenerater>();
 			Game.AddSingleton<EventSystem>();
+			Game.AddSingleton<NetServices>();
 			Game.AddSingleton<Root>();
 			
 			ETTask.ExceptionHandler += Log.Error;
